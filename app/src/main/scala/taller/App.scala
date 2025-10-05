@@ -18,9 +18,13 @@ class ConjuntosDifusos {
     s(elem)
   }
 
-  def grande(d: Int, e: Int): ConjDifuso = {
-    
-  ...
+  def grande(d: Int)(e: Int): ConjDifuso = {
+    val isItgreat = (n: Int) => {
+      if (n <= 0) 0.0
+      else {
+
+      }
+    }
   }
 
   def complemento(c: ConjDifuso): ConjDifuso = {
