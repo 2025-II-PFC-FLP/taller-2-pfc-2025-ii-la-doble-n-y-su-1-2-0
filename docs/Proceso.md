@@ -633,7 +633,281 @@ $$
 ---
 ## ALGORITMOS
 ### 🔷 DEFINICIÓN FUNCIÓN "INTERSECCIÓN"
+La función `interseccion` combina dos conjuntos difusos aplicando el operador de mínimo (t-norma estándar). Para cada elemento, toma el menor grado de pertenencia entre ambos conjuntos, representando así los elementos que pertenecen a ambos conjuntos simultáneamente.
 
+La operación se define matemáticamente como:
+
+$$
+(A \cap B)(x) = \min(A(x), B(x))
+$$
+
+#### ALGORITMO EN SCALA:
+
+```scala
+def interseccion(cd1: ConjDifuso, cd2: ConjDifuso): ConjDifuso = {
+  (inter: Int) =>
+    val Conj1 = cd1(inter)
+    val Conj2 = cd2(inter)
+    if (Conj1 < Conj2)
+      Conj1
+    else
+      Conj2
+}
+```
+**Componentes de la función:**
+- `cd1: ConjDifuso`: Primer conjunto difuso
+- `cd2: ConjDifuso`: Segundo conjunto difuso
+- `inter: Int`: Variable que representa el elemento a evaluar en la lambda
+- Retorna un nuevo `ConjDifuso` que representa la intersección
+
+### 🔧 EXPLICACIÓN PASO A PASO
+
+#### EVALUACIÓN DE AMBOS CONJUNTOS:
+```scala
+val Conj1 = cd1(inter)
+val Conj2 = cd2(inter)
+```
+Se evalúa el elemento en ambos conjuntos difusos para obtener sus grados de pertenencia.
+
+#### APLICACIÓN DEL MÍNIMO:
+```scala
+if (Conj1 < Conj2)
+  Conj1
+else
+  Conj2
+```
+Se selecciona el menor de los dos grados. Esto refleja que en lógica difusa, la intersección representa "pertenencia a ambos conjuntos", donde el grado más restrictivo (menor) determina el resultado.
+
+**Paso 1:** Evaluar ambos conjuntos
+
+$$
+\mu_{A}(x) = cd1(x)
+$$
+
+$$
+\mu_{B}(x) = cd2(x)
+$$
+
+**Paso 2:** Calcular el mínimo
+
+$$
+\mu_{A \cap B}(x) = \min(\mu_A(x), \mu_B(x))
+$$
+---
+## ALGORITMOS
+### 📷 DEFINICIÓN FUNCIÓN "INTERSECCIÓN"
+La función `interseccion` combina dos conjuntos difusos aplicando el operador de mínimo (t-norma estándar). Para cada elemento, toma el menor grado de pertenencia entre ambos conjuntos, representando así los elementos que pertenecen a ambos conjuntos simultáneamente.
+
+La operación se define matemáticamente como:
+
+$$
+(A \cap B)(x) = \min(A(x), B(x))
+$$
+
+#### ALGORITMO EN SCALA:
+
+```scala
+def interseccion(cd1: ConjDifuso, cd2: ConjDifuso): ConjDifuso = {
+  (inter: Int) =>
+    val Conj1 = cd1(inter)
+    val Conj2 = cd2(inter)
+    if (Conj1 < Conj2)
+      Conj1
+    else
+      Conj2
+}
+```
+
+**Componentes de la función:**
+- `cd1: ConjDifuso`: Primer conjunto difuso
+- `cd2: ConjDifuso`: Segundo conjunto difuso
+- `inter: Int`: Variable que representa el elemento a evaluar en la lambda
+- Retorna un nuevo `ConjDifuso` que representa la intersección
+
+### 🔧 EXPLICACIÓN PASO A PASO
+
+#### EVALUACIÓN DE AMBOS CONJUNTOS:
+```scala
+val Conj1 = cd1(inter)
+val Conj2 = cd2(inter)
+```
+Se evalúa el elemento en ambos conjuntos difusos para obtener sus grados de pertenencia.
+
+#### APLICACIÓN DEL MÍNIMO:
+```scala
+if (Conj1 < Conj2)
+  Conj1
+else
+  Conj2
+```
+Se selecciona el menor de los dos grados. Esto refleja que en lógica difusa, la intersección representa "pertenencia a ambos conjuntos", donde el grado más restrictivo (menor) determina el resultado.
+
+**Paso 1:** Evaluar ambos conjuntos
+
+$$
+\mu_{A}(x) = cd1(x)
+$$
+
+$$
+\mu_{B}(x) = cd2(x)
+$$
+
+**Paso 2:** Calcular el mínimo
+
+$$
+\mu_{A \cap B}(x) = \min(\mu_A(x), \mu_B(x))
+$$
+
+### 📝 EJEMPLO DE EJECUCIÓN DE `interseccion`
+
+```scala
+val vacio: ConjDifuso = _ => 0.0
+val universal: ConjDifuso = _ => 1.0
+val testecito: ConjDifuso = (x: Int) => if (x <= 5) 1.0 else 0.0
+
+val c1: ConjDifuso = _ => 0.7
+val c2: ConjDifuso = _ => 0.4
+
+val interVacioTest = interseccion(vacio, testecito)
+val interUniversalTest = interseccion(universal, testecito)
+val interC1C2 = interseccion(c1, c2)
+```
+
+**Evaluaciones:**
+
+| Conjunto 1      | Conjunto 2   | Elemento | Grado cd1 | Grado cd2 | Intersección            | Resultado |
+|-----------------|--------------|----------|-----------|-----------|-------------------------|-----------|
+| `vacio`         | `testecito`  | 2        | $0.0$     | $1.0$     | $\min(0.0, 1.0)$        | $0.0$     |
+| `vacio`         | `testecito`  | 10       | $0.0$     | $0.0$     | $\min(0.0, 0.0)$        | $0.0$     |
+| `universal`     | `testecito`  | 4        | $1.0$     | $1.0$     | $\min(1.0, 1.0)$        | $1.0$     |
+| `universal`     | `testecito`  | 25       | $1.0$     | $0.0$     | $\min(1.0, 0.0)$        | $0.0$     |
+| `c1` (0.7)      | `c2` (0.4)   | 5        | $0.7$     | $0.4$     | $\min(0.7, 0.4)$        | $0.4$     |
+
+**Ejemplo con grados variables:**
+```scala
+val c3: ConjDifuso = (x: Int) => if (x < 10) 0.8 else 0.3
+val c4: ConjDifuso = (x: Int) => if (x < 10) 0.5 else 0.9
+
+val inter = interseccion(c3, c4)
+// inter(5) = min(0.8, 0.5) = 0.5
+// inter(15) = min(0.3, 0.9) = 0.3
+```
+
+### 📊 DIAGRAMA DE EVALUACIÓN DE `interseccion`
+
+```mermaid
+graph TD
+    A[interseccion cd1 cd2] --> B[Retorna lambda: inter => Double]
+    B --> C[Evaluar lambda con x = 5]
+    C --> D[Evaluar cd1 5]
+    C --> E[Evaluar cd2 5]
+    D --> F[Conj1 = 0.8]
+    E --> G[Conj2 = 0.5]
+    F --> H{Conj1 < Conj2?}
+    G --> H
+    H -->|Sí: 0.8 < 0.5 = false| I[Retorna Conj2 = 0.5]
+    H -->|Si fuera true| J[Retornaría Conj1]
+    
+    style A fill:#e1f5ff
+    style B fill:#ffe1e1
+    style I fill:#c8e6c9
+```
+
+### 🧾 NOTACIÓN MATEMÁTICA DE `interseccion`
+
+#### 📐 DEFINICIÓN FORMAL
+
+$$
+\text{interseccion} : \text{ConjDifuso} \times \text{ConjDifuso} \to \text{ConjDifuso}
+$$
+
+$$
+\text{interseccion}(A, B)(x) = \min(A(x), B(x))
+$$
+
+Equivalentemente:
+
+$$
+(A \cap B)(x) = A(x) \wedge B(x)
+$$
+
+donde $\wedge$ denota el operador de mínimo (t-norma estándar).
+
+#### 📐 PROPIEDADES ALGEBRAICAS
+
+**Conmutatividad:**
+
+$$
+A \cap B = B \cap A
+$$
+
+**Asociatividad:**
+
+$$
+(A \cap B) \cap C = A \cap (B \cap C)
+$$
+
+**Idempotencia:**
+
+$$
+A \cap A = A
+$$
+
+**Elemento neutro** (conjunto universal $U$):
+
+$$
+A \cap U = A
+$$
+
+donde $U(x) = 1$ para todo $x$.
+
+**Absorción** (conjunto vacío $\emptyset$):
+
+$$
+A \cap \emptyset = \emptyset
+$$
+
+donde $\emptyset(x) = 0$ para todo $x$.
+
+**Monotonicidad:** Si $A \subseteq B$, entonces:
+
+$$
+A \cap C \subseteq B \cap C
+$$
+
+**Distributividad con la unión:**
+
+$$
+A \cap (B \cup C) = (A \cap B) \cup (A \cap C)
+$$
+
+**Relación con el complemento (Ley de De Morgan):**
+
+$$
+\neg(A \cap B) = \neg A \cup \neg B
+$$
+
+#### 📐 DIFERENCIA CON CONJUNTOS CLÁSICOS
+
+En conjuntos clásicos:
+
+$$
+A \cap \neg A = \emptyset
+$$
+
+En conjuntos difusos, esto no se cumple necesariamente. Por ejemplo, si $\mu_A(x) = 0.6$:
+
+$$
+\mu_{A \cap \neg A}(x) = \min(0.6, 1-0.6) = \min(0.6, 0.4) = 0.4 \neq 0
+$$
+
+#### 📊 COMPLEJIDAD
+
+- **Temporal**: $O(1)$ - Evaluación constante por elemento (crear la lambda es constante)
+- **Espacial**: $O(1)$ - Solo se crea una clausura con referencias a los conjuntos originales
+
+**Complejidad de evaluación:**
+- Cuando se evalúa la intersección en un elemento: $O(T_{cd1} + T_{cd2})$ donde $T_{cd1}$ y $T_{cd2}$ son los tiempos de evaluar cada conjunto original
 
 ---
 ## ALGORITMOS
