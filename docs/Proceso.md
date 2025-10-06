@@ -632,34 +632,6 @@ $$
 
 ---
 ## ALGORITMOS
-### 🔷 DEFINICIÓN FUNCIÓN "INTERSECCIÓN"
-La función `interseccion` combina dos conjuntos difusos aplicando el operador de mínimo (t-norma estándar). Para cada elemento, toma el menor grado de pertenencia entre ambos conjuntos, representando así los elementos que pertenecen a ambos conjuntos simultáneamente.
-
-La operación se define matemáticamente como:
-
-$$
-(A \cap B)(x) = \min(A(x), B(x))
-$$
-
-#### ALGORITMO EN SCALA:
-
-```scala
-def interseccion(cd1: ConjDifuso, cd2: ConjDifuso): ConjDifuso = {
-  (inter: Int) =>
-    val Conj1 = cd1(inter)
-    val Conj2 = cd2(inter)
-    if (Conj1 < Conj2)
-      Conj1
-    else
-      Conj2
-}
-```
-**Componentes de la función:**
-- `cd1: ConjDifuso`: Primer conjunto difuso
-- `cd2: ConjDifuso`: Segundo conjunto difuso
-- `inter: Int`: Variable que representa el elemento a evaluar en la lambda
-- Retorna un nuevo `ConjDifuso` que representa la intersección
-
 
 ## ALGORITMOS
 ### 📷 DEFINICIÓN FUNCIÓN "INTERSECCIÓN"
