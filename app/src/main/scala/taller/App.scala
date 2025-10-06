@@ -19,12 +19,14 @@ class ConjuntosDifusos {
   }
 
   def grande(d: Int)(e: Int): ConjDifuso = {
-    val isItgreat = (n: Int) => {
+    val belongsTo = (n: Int) => {
       if (n <= 0) 0.0
       else {
-
+        val isItGreat = n.toDouble / (n.toDouble+d.toDouble)
+        math.pow(isItGreat, e)
       }
     }
+    belongsTo
   }
 
   def complemento(c: ConjDifuso): ConjDifuso = {
