@@ -757,7 +757,6 @@ $$
 $$
 \mu_{A \cap B}(x) = \min(\mu_A(x), \mu_B(x))
 $$
-
 ### 📝 EJEMPLO DE EJECUCIÓN DE `interseccion`
 
 ```scala
@@ -896,6 +895,7 @@ A \cap \neg A = \emptyset
 $$
 
 En conjuntos difusos, esto no se cumple necesariamente. Por ejemplo, si $\mu_A(x) = 0.6$:
+
 
 $$
 \mu_{A \cap \neg A}(x) = \min(0.6, 1-0.6) = \min(0.6, 0.4) = 0.4 \neq 0
