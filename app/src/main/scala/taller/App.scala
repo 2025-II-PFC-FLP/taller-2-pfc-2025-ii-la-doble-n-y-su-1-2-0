@@ -18,37 +18,87 @@ class ConjuntosDifusos {
     s(elem)
   }
 
- /* def grande(d: Int)(e: Int): ConjDifuso = {
-  }*/
+  def grande(d: Int)(e: Int): ConjDifuso = {
+    //belongsTo is the lambda to work with the number and make it
+    // a ConjDiffuse
+    val belongsTo = (n: Int) => {
+
+      if (n <= 0) 0.0 //Statement to know when a number is negative
+
+      else {
+
+        val isItGreat = n.toDouble / (n.toDouble+d.toDouble)
+        //Equation to know when a number is great
+        math.pow(isItGreat, e)
+        //To know if the number is great or not
+      }
+    }
+    belongsTo
+  }
 
   def complemento(c: ConjDifuso): ConjDifuso = {
     (x: Int) => 1.0 - c(x) // se recibe un conjunto difuso y devuelve otro conjunto difuso con la regla
   }
 
-/* def union(cd1: ConjDifuso, cd2: ConjDifuso): ConjDifuso = {
-   // Implementaci´on de la funci´on union
- ...
- }*/
+  def union(cd1: ConjDifuso)(cd2: ConjDifuso): ConjDifuso = {
+    // Lambda that makes a union between the two set
+    val unionSet = (x: Int) => {
 
- def interseccion(cd1: ConjDifuso, cd2: ConjDifuso): ConjDifuso = {
-   (inter: Int)=>
-     val Conj1= cd1(inter)
-     val Conj2= cd2(inter)
+      val setDifuse1 = cd1(x) //Evaluate the value of the first set
+      val setDifuse2 = cd2(x) // Evaluate the second set´s value
+
+      // Choose the max between set 1 and set 2 to complete the union
+      val unionSd1Sd2 = math.max(setDifuse1, setDifuse2)
+
+      unionSd1Sd2 //The final value of lambda
+    }
+    unionSet
+  }
+
+  def interseccion(cd1: ConjDifuso, cd2: ConjDifuso): ConjDifuso = {
+    (inter: Int)=>
+      val Conj1= cd1(inter)
+      val Conj2= cd2(inter)
       if(Conj1 < Conj2)
         Conj1
       else
         Conj2
 
- }
+  }
 
- /*def inclusion(cd1: ConjDifuso, cd2: ConjDifuso): Boolean = {
-   // Implementaci´on de la funci´on inclusion
- ...
- }
+  def inclusion(cd1: ConjDifuso)(cd2: ConjDifuso): Boolean = {
+    /*
+    In this function we use tail recursion to evaluate in every number
+    lower than 1000
+     */
+    @tailrec
+    def evaluateIndexSet(x: Int): Boolean = {
 
- def igualdad(cd1: ConjDifuso, cd2: ConjDifuso): Boolean = {
-   // Implementaci´on de la funci´on igualdad
- ...
- }
-*/
+      val setDifuse1 = cd1(x) //Evaluate the value of the first set
+      val setDifuse2 = cd2(x) // Evaluate the second set´s value
+
+      // base case where we evaluate all the number from 0 to 1000
+      if (x > 1000) {
+        true
+      }
+
+      // Second case where we evaluate if the first set is included in the second set
+      else if (setDifuse1 > setDifuse2) {
+        false
+      }
+
+      // Recursive case where if all is passed and the number is lower than 1000
+      // we proceed to evaluate the next number until be higher than 1000
+      else{
+        evaluateIndexSet(x+1)
+      }
+    }
+    //Start the case in the first number that we can
+    evaluateIndexSet(0)
+  }
+
+  def igualdad(cd1: ConjDifuso, cd2: ConjDifuso): Boolean = {
+    // Implementaci´on de la funci´on igualdad
+  ...
+  }
 }
