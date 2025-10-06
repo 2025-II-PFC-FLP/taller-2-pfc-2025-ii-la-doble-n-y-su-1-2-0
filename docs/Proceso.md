@@ -660,40 +660,7 @@ def interseccion(cd1: ConjDifuso, cd2: ConjDifuso): ConjDifuso = {
 - `inter: Int`: Variable que representa el elemento a evaluar en la lambda
 - Retorna un nuevo `ConjDifuso` que representa la intersección
 
-### 🔧 EXPLICACIÓN PASO A PASO
 
-#### EVALUACIÓN DE AMBOS CONJUNTOS:
-```scala
-val Conj1 = cd1(inter)
-val Conj2 = cd2(inter)
-```
-Se evalúa el elemento en ambos conjuntos difusos para obtener sus grados de pertenencia.
-
-#### APLICACIÓN DEL MÍNIMO:
-```scala
-if (Conj1 < Conj2)
-  Conj1
-else
-  Conj2
-```
-Se selecciona el menor de los dos grados. Esto refleja que en lógica difusa, la intersección representa "pertenencia a ambos conjuntos", donde el grado más restrictivo (menor) determina el resultado.
-
-**Paso 1:** Evaluar ambos conjuntos
-
-$$
-\mu_{A}(x) = cd1(x)
-$$
-
-$$
-\mu_{B}(x) = cd2(x)
-$$
-
-**Paso 2:** Calcular el mínimo
-
-$$
-\mu_{A \cap B}(x) = \min(\mu_A(x), \mu_B(x))
-$$
----
 ## ALGORITMOS
 ### 📷 DEFINICIÓN FUNCIÓN "INTERSECCIÓN"
 La función `interseccion` combina dos conjuntos difusos aplicando el operador de mínimo (t-norma estándar). Para cada elemento, toma el menor grado de pertenencia entre ambos conjuntos, representando así los elementos que pertenecen a ambos conjuntos simultáneamente.
@@ -755,7 +722,8 @@ $$
 **Paso 2:** Calcular el mínimo
 
 $$
-\mu_{A \cap B}(x) = \min(\mu_A(x), \mu_B(x))
+\mu_{A \cap B}(x)
+= \min(\mu_A(x), \mu_B(x))
 $$
 ### 📝 EJEMPLO DE EJECUCIÓN DE `interseccion`
 
