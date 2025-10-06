@@ -565,7 +565,217 @@ $$
 Para verificar esta propiedad en el rango $[0, 1000]$, se utiliza recursión de cola.
 
 #### ALGORITMO EN SCALA:
+```scala
+  def igualdad(cd1: ConjDifuso, cd2: ConjDifuso): Boolean = {
+    @tailrec
+    def Elemento (n: Int): Boolean = {
+      if (n > 1000)   // no se encuentra ningun elemento diferente
+        true
+      else if (cd1(n) != cd2(n)) // Caso de corte, se encuentra un valor que no es igual
+        false
+      else
+        Elemento (n + 1)  // Paso recursivo,se sigue comparando
+    }
+    Elemento (0)
+  }
+```
+**Componentes de la función:**
+- `cd1: ConjDifuso`: Primer conjunto difuso
+- `cd2: ConjDifuso`: Segundo conjunto difuso
+- `Elemento`: Función auxiliar recursiva de cola
+- `@tailrec`: Garantiza optimización de recursión
+- Retorna `Boolean`: `true` si $cd1 = cd2$, `false` en caso contrario
 
+### 🔧 EXPLICACIÓN PASO A PASO
+
+#### CASO BASE (VERIFICACIÓN FINAL):
+```scala
+if (n > 1000)   // no se encuentra ningún elemento diferente 
+  true
+```
+Si se verificaron todos los elementos del rango $[0, 1000]$ sin encontrar diferencias, entonces $cd1 = cd2$.
+
+#### CASO DE DIFERENCIA:
+```scala
+else if (cd1(n) != cd2(n)) // Caso de corte, se encuentra un valor que no es igual
+  false
+```
+Si en algún punto $cd1(n) \neq cd2(n)$, se encuentra un contraejemplo y los conjuntos no son iguales. Se aplica **corto circuito**: no es necesario verificar el resto.
+
+#### CASO RECURSIVO:
+```scala
+else
+  Elemento (n + 1)  // Paso recursivo,se sigue comparando
+```
+Si $cd1(n) = cd2(n)$, este elemento cumple la condición. Se continúa verificando el siguiente elemento.
+
+### 📝 EJEMPLO DE EJECUCIÓN DE `igualdad`
+```scala
+val difuseSet1 = grande(10)(2)
+val difuseSet2 = grande(10)(2)
+val difuseSet3 = grande(15)(2)
+
+val outCome1 = igualdad(conjunto1, conjunto2)
+val outCome2 = igualdad(conjunto1, conjunto3)
+```
+**Traza de ejecución para `igualdad(difuseSet1, difuseSet2)`:**
+```scala
+Elemento(0): 
+difuseSet1(0) = 0.0, difuseSet2(0) = 0.0
+0.0 == 0.0 ✓ → Elemento(1)
+
+Elemento(1):
+difuseSet1(1) = math.pow((1/11), 2) ≈ 0.0083
+difuseSet2(1) = math.pow((1/11), 2) ≈ 0.0083
+0.0083 == 0.0083 ✓ → Elemento(2)
+
+...continúa verificando...
+
+Elemento(1000):
+difuseSet1(1000) ≈ 0.9803
+difuseSet2(1000) ≈ 0.9803
+✓ → Elemento(1001)
+
+Elemento(1001):
+1001 > 1000 → return true
+
+outCome1: true (conjunto1 = conjunto2)
+```
+**Traza de ejecución para `igualdad(difuseSet1, difuseSet3)`:**
+```scala
+Elemento(0):
+difuseSet1(0) = 0.0, difuseSet3(0) = 0.0
+0.0 == 0.0 ✓ → Elemento(1)
+
+Elemento(1):
+difuseSet1(1) = math.pow((1/11), 2) ≈ 0.0083
+difuseSet3(1) = math.pow((1/16), 2) ≈ 0.0039
+0.0083 != 0.0039 ✗ → return false
+
+outCome2: false (conjunto1 ≠ conjunto3)
+```
+### 📊 DIAGRAMA DE `igualdad` CON RECURSIÓN DE COLA
+```mermaid
+graph TD
+A[igualdad cd1 cd2] --> B[Elemento 0]
+B --> C{n > 1000?}
+C -->|Sí| D[return true, todos los elementos son iguales]
+C -->|No| E[Evaluar cd1 n y cd2 n]
+E --> F{cd1 n != cd2 n?}
+F -->|Sí| G[return false. Diferencia encontrada]
+F -->|No| H["cd1 n == cd2 n ✓ Continuar verificando"]
+H --> I[Elemento n+1]
+I --> C
+style A fill:#e1f5ff
+style D fill:#c8e6c9
+style G fill:#ffcdd2
+style H fill:#fff9c4
+```
+### 🧾 NOTACIÓN DE MATEMÁTICAS DE `igualdad`
+
+#### 📐 DEFINICIÓN FORMAL
+
+$$
+\text{igualdad} : \text{ConjDifuso} \times \text{ConjDifuso} \to \text{Boolean}
+$$
+
+$$
+\text{igualdad}(A, B) =
+\begin{cases}
+\text{true} & \text{si } \forall x \in [0, 1000] : A(x) = B(x) \\
+\text{false} & \text{en otro caso}
+\end{cases}
+$$
+
+Formalmente:
+
+$$
+A = B \iff \forall x \in U : \mu_A(x) = \mu_B(x)
+$$
+
+donde $\mu_A(x)$ y $\mu_B(x)$ son las funciones de pertenencia de los conjuntos difusos $A$ y $B$ respectivamente.
+
+#### 🔁 PROPIEDADES
+
+**Reflexividad:**
+
+$$
+\forall A : A = A
+$$
+
+**Simetría:**
+
+$$
+A = B \implies B = A
+$$
+
+**Transitividad:**
+
+$$
+(A = B) \land (B = C) \implies A = C
+$$
+
+**Relación con la inclusión:** La igualdad es equivalente a la inclusión mutua:
+
+$$
+A = B \iff (A \subseteq B) \land (B \subseteq A)
+$$
+
+**Propiedad de sustitución:** Si $A = B$, entonces para cualquier operación $\circ$:
+
+$$
+A \circ C = B \circ C
+$$
+
+#### 🔁 INVARIANTE DE RECURSIÓN
+
+Para toda llamada válida de `Elemento(n)` se cumple:
+
+$$
+\forall i \in [0, n) : cd1(i) = cd2(i)
+$$
+
+Es decir, todos los elementos anteriores a $n$ ya fueron verificados y son iguales.
+
+**Caso base:** Cuando $n > 1000$, el invariante asegura que:
+
+$$
+\forall i \in [0, 1000] : cd1(i) = cd2(i)
+$$
+
+Por tanto, $cd1 = cd2$ y se retorna `true`.
+
+#### 📊 COMPLEJIDAD
+
+**Análisis temporal:**
+
+- **Mejor caso**: $O(1)$ - si se encuentra diferencia en el primer elemento ($n = 0$)
+- **Peor caso**: $O(n)$ donde $n = 1001$ - verifica todo el rango $[0, 1000]$
+- **Caso promedio**: $O(k)$ donde $k$ es el índice de la primera diferencia
+
+Para este dominio específico:
+
+$$
+T(n) = O(1001) = O(1) \text{ (constante para el universo definido)}
+$$
+
+**Análisis espacial:**
+
+- **Espacial**: $O(1)$ - recursión de cola optimizada por el compilador Scala
+- La anotación `@tailrec` garantiza que la recursión se convierte en un bucle iterativo
+- No crece la pila de llamadas
+
+**Comparación con `inclusion`:**
+
+La función `igualdad` es más restrictiva que `inclusion`:
+- `inclusion(A, B)` verifica $A(x) \leq B(x)$
+- `igualdad(A, B)` verifica $A(x) = B(x)$
+
+Por tanto:
+
+$$
+\text{igualdad}(A, B) \implies \text{inclusion}(A, B) \land \text{inclusion}(B, A)
+$$
 
 
 ---
