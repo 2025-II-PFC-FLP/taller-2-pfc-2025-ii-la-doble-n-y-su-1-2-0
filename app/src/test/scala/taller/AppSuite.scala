@@ -88,7 +88,7 @@ class ConjuntosDifusosTest extends AnyFunSuite {
   test("INTERSECCION CON EL MISMO CONJUNTO DEVUELVE EL MISMO CONJUNTO") {
     val inter = cd.interseccion(testecito, testecito)
 
-    assert(inter(2) == testecito(2))
-    assert(inter(10) == testecito(10))
+    assert(inter(30) == testecito(30))
+    assert(inter(9) == testecito(9))
   }
 }
