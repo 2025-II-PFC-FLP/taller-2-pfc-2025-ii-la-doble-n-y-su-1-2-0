@@ -285,7 +285,193 @@ $$
 ---
 ## ALGORITMOS
 ### 🔷 DEFINICIÓN FUNCIÓN "COMPLEMENTO"
+La función `complemento` devuelve el conjunto difuso complementario de un conjunto dado. El complemento invierte los grados de pertenencia: elementos con alta pertenencia en el conjunto original tendrán baja pertenencia en el complemento, y viceversa.
 
+Matemáticamente, para un conjunto difuso $S$ con función característica $f_S$:
+
+$$
+f_{\neg S}(x) = 1 - f_S(x)
+$$
+
+#### ALGORITMO EN SCALA:
+
+```scala
+def complemento(c: ConjDifuso): ConjDifuso = {
+  (Elemento: Int) => 1.0 - c(Elemento)
+}
+```
+
+**Componentes de la función:**
+- `c: ConjDifuso`: El conjunto difuso original
+- `Elemento: Int`: Variable que representa el elemento a evaluar en la lambda
+- Retorna un nuevo `ConjDifuso` que representa el complemento
+
+
+### 🔧 EXPLICACIÓN PASO A PASO
+
+#### CONSTRUCCIÓN DE LA LAMBDA:
+```scala
+(Elemento: Int) => 1.0 - c(Elemento)
+```
+
+La función retorna una nueva función lambda que:
+1. Recibe un elemento `Elemento` del universo
+2. Evalúa el grado de pertenencia original: `c(Elemento)`
+3. Calcula el complemento mediante la resta: `1.0 - c(Elemento)`
+
+**Paso 1:** Evaluar el conjunto original
+
+$$
+\mu_S(x) = c(x)
+$$
+
+**Paso 2:** Calcular el complemento
+
+$$
+\mu_{\neg S}(x) = 1.0 - \mu_S(x)
+$$
+
+Esta operación garantiza que si un elemento pertenece totalmente al conjunto original ($\mu_S(x) = 1.0$), no pertenecerá al complemento ($\mu_{\neg S}(x) = 0.0$), y viceversa.
+
+### 📝 EJEMPLO DE EJECUCIÓN DE `complemento`
+
+```scala
+val vacio: ConjDifuso = _ => 0.0
+val universal: ConjDifuso = _ => 1.0
+val testecito: ConjDifuso = (x: Int) => if (x <= 5) 1.0 else 0.0
+val medio: ConjDifuso = _ => 0.5
+
+val compVacio = complemento(vacio)
+val compUniversal = complemento(universal)
+val compTestecito = complemento(testecito)
+val compMedio = complemento(medio)
+```
+**Evaluaciones:**
+
+| Conjunto Original | Elemento | Grado Original | Grado Complemento | Cálculo               |
+|-------------------|----------|----------------|-------------------|-----------------------|
+| `vacio`           | 5        | $0.0$          | $1.0$             | $1.0 - 0.0 = 1.0$     |
+| `universal`       | 100      | $1.0$          | $0.0$             | $1.0 - 1.0 = 0.0$     |
+| `testecito`       | 3        | $1.0$          | $0.0$             | $1.0 - 1.0 = 0.0$     |
+| `testecito`       | 10       | $0.0$          | $1.0$             | $1.0 - 0.0 = 1.0$     |
+| `medio`           | 15       | $0.5$          | $0.5$             | $1.0 - 0.5 = 0.5$     |
+
+**Propiedad del doble complemento:**
+```scala
+val dobleComp = complemento(complemento(testecito))
+// dobleComp(3) == testecito(3) == 1.0
+// dobleComp(10) == testecito(10) == 0.0
+```
+
+### 📊 DIAGRAMA DE EVALUACIÓN DE `complemento`
+
+```mermaid
+graph TD
+    A[complemento c] --> B[Retorna lambda: Elemento => Double]
+    B --> C[Evaluar lambda con x]
+    C --> D[c x - Evaluar conjunto original]
+    D --> E[Obtener grado μ]
+    E --> F[Calcular: 1.0 - μ]
+    F --> G[Retornar complemento]
+    
+    H[Ejemplo: testecito 3] --> I[c 3 = 1.0]
+    I --> J[1.0 - 1.0 = 0.0]
+    
+    K[Ejemplo: testecito 10] --> L[c 10 = 0.0]
+    L --> M[1.0 - 0.0 = 1.0]
+    
+    style A fill:#e1f5ff
+    style B fill:#ffe1e1
+    style G fill:#c8e6c9
+    style J fill:#ffcdd2
+    style M fill:#c8e6c9
+```
+
+### 🧾 NOTACIÓN MATEMÁTICA DE `complemento`
+
+#### 📐 DEFINICIÓN FORMAL
+
+$$
+\text{complemento} : \text{ConjDifuso} \to \text{ConjDifuso}
+$$
+
+$$
+\text{complemento}(S)(x) = 1 - \mu_S(x)
+$$
+
+Equivalentemente:
+
+$$
+\mu_{\neg S}(x) = 1 - \mu_S(x)
+$$
+
+donde $\mu_S: \mathbb{Z} \to [0,1]$ es la función de pertenencia del conjunto difuso $S$.
+
+#### 📐 PROPIEDADES
+
+**Involutividad (Doble complemento):**
+
+$$
+\neg(\neg S) = S
+$$
+
+$$
+\forall x \in U : \mu_{\neg(\neg S)}(x) = 1 - (1 - \mu_S(x)) = \mu_S(x)
+$$
+
+**Leyes de De Morgan:**
+
+$$
+\neg(S_1 \cup S_2) = \neg S_1 \cap \neg S_2
+$$
+
+$$
+\neg(S_1 \cap S_2) = \neg S_1 \cup \neg S_2
+$$
+
+**Complemento del vacío:**
+
+$$
+\neg \emptyset = U
+$$
+
+$$
+\forall x : \mu_{\neg \emptyset}(x) = 1 - 0 = 1
+$$
+
+**Complemento del universal:**
+
+$$
+\neg U = \emptyset
+$$
+
+$$
+\forall x : \mu_{\neg U}(x) = 1 - 1 = 0
+$$
+
+**Intersección con su complemento:**
+
+$$
+S \cap \neg S \neq \emptyset \text{ (en general)}
+$$
+
+A diferencia de la lógica clásica, en lógica difusa un conjunto y su complemento pueden tener elementos con pertenencia parcial en ambos.
+
+**Unión con su complemento:**
+
+$$
+S \cup \neg S \neq U \text{ (en general)}
+$$
+
+Estas propiedades muestran que la lógica difusa no es necesariamente una lógica booleana.
+
+#### 📊 COMPLEJIDAD
+
+- **Temporal**: $O(1)$ - Crear la función lambda es constante
+- **Espacial**: $O(1)$ - Solo se crea una clausura con referencia al conjunto original
+
+**Complejidad de evaluación:**
+- Cuando se evalúa el complemento en un elemento: $O(1) + T_c$ donde $T_c$ es el tiempo de evaluar el conjunto original
 
 ---
 ## ALGORITMOS
