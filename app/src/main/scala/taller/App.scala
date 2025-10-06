@@ -18,38 +18,31 @@ class ConjuntosDifusos {
     s(elem)
   }
 
-  def grande(d: Int)(e: Int): ConjDifuso = {
-    val isItgreat = (n: Int) => {
-      if (n <= 0) 0.0
-      else {
-
-      }
-    }
-  }
+ /* def grande(d: Int)(e: Int): ConjDifuso = {
+  }*/
 
   def complemento(c: ConjDifuso): ConjDifuso = {
-    // Implementaci´on de la funci´on complemento
-  ...
+    (x: Int) => 1.0 - c(x) // se recibe un conjunto difuso y devuelve otro conjunto difuso con la regla
   }
 
-  def union(cd1: ConjDifuso, cd2: ConjDifuso): ConjDifuso = {
-    // Implementaci´on de la funci´on union
-  ...
-  }
+/* def union(cd1: ConjDifuso, cd2: ConjDifuso): ConjDifuso = {
+   // Implementaci´on de la funci´on union
+ ...
+ }
 
-  def interseccion(cd1: ConjDifuso, cd2: ConjDifuso): ConjDifuso = {
-    @tailrec
-    // Implementaci´on de la funci´on interseccion
-  }
+ def interseccion(cd1: ConjDifuso, cd2: ConjDifuso): ConjDifuso = {
+   @tailrec
+   // Implementaci´on de la funci´on interseccion
+ }
 
-  def inclusion(cd1: ConjDifuso, cd2: ConjDifuso): Boolean = {
-    // Implementaci´on de la funci´on inclusion
-  ...
-  }
+ def inclusion(cd1: ConjDifuso, cd2: ConjDifuso): Boolean = {
+   // Implementaci´on de la funci´on inclusion
+ ...
+ }
 
-  def igualdad(cd1: ConjDifuso, cd2: ConjDifuso): Boolean = {
-    // Implementaci´on de la funci´on igualdad
-  ...
-  }
-
+ def igualdad(cd1: ConjDifuso, cd2: ConjDifuso): Boolean = {
+   // Implementaci´on de la funci´on igualdad
+ ...
+ }
+*/
 }
