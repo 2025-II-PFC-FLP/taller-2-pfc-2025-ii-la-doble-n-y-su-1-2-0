@@ -39,6 +39,97 @@ $$
 \end{cases}
 $$
 
+Donde:
+- $d$: Parámetro que controla la sensibilidad (valores más pequeños hacen que los números se consideren "grandes" más rápidamente).
+- $e$: Exponente que controla la curvatura de la función.
+
+#### Algoritmo en Scala:
+
+```Scala
+def grande(d: Int)(e: Int): ConjDifuso = {
+    //belongsTo is the lambda to work with the number and make it
+    // a ConjDiffuse
+    val belongsTo = (n: Int) => {
+
+      if (n <= 0) 0.0 //Statement to know when a number is negative
+
+      else {
+
+        val isItGreat = n.toDouble / (n.toDouble+d.toDouble)
+        //Equation to know when a number is great
+        math.pow(isItGreat, e)
+        //To know if the number is great or not
+      }
+    }
+    belongsTo
+  }
+```
+**Componentes de la función:**
+- `d: Int`: Primer parámetro que controla el desplazamiento horizontal de la curva.
+- `e: Int`: Segundo parámetro que controla la pendiente (curvatura).
+- `belongsTo`: Lambda que representa el conjunto difuso resultante.
+- Retorna un `ConjDifuso` (función `Int => Double`)
+- 
+### 🔧 EXPLICACIÓN PASO A PASO
+#### CASO BASE:
+`if (n <= 0) 0.0`
+
+Cuando $n$ es negativo o cero, el grado de pertenencia es 0, esto ya que un número no positivo o negativo no puede considerarse grande.
+
+### CASO GENERAL:
+```Scala
+  else {
+    val isItGreat = n.toDouble / (n.toDouble+d.toDouble)
+    //Equation to know when a number is great
+    math.pow(isItGreat, e)
+    //To know if the number is great or not
+  }
+```
+**Paso 1:** Calcular la fracción base
+
+$$
+\text{base} = \frac{n}{n+d}
+$$
+
+Esta fracción siempre está en el rango $(0, 1)$ para $n > 0$.
+
+**Paso 2:** Elevar a la potencia $e$
+
+$$
+\text{grado} = \left(\frac{n}{n+d}\right)^e
+$$
+
+El exponente $e$ controla qué tan rápido crece el grado de pertenencia.
+
+### 📝 EJEMPLO DE EJECUCIÓN DE `grande`
+`val bigNumbers = grande(10)(2)`
+**Evaluaciones:**
+
+| Entrada | Cálculo | Resultado |
+|---------|---------|-----------|
+| `numGrandes(0)` | $0$ | $0.0$ |
+| `numGrandes(10)` | $(10/(10+10))^2 = (0.5)^2$ | $0.25$ |
+| `numGrandes(50)` | $(50/(50+10))^2 = (0.833)^2$ | $\approx 0.694$ |
+| `numGrandes(100)` | $(100/(100+10))^2 = (0.909)^2$ | $\approx 0.826$ |
+
+### 📊 DIAGRAMA DE EVALUACIÓN DE `grande(10)(2)`
+```mermaid
+graph TD
+A[grande
+d=10, e=2] -->|Retorna| B[Lambda: n => Double]
+B -->|Evaluar| C[n = 50]
+C --> D{n <= 0?}
+D -->|No| E[base = n / n+d
+= 50/60
+= 0.833]
+E --> F[pow base e
+= 0.833²
+= 0.694]
+F --> G[Retorna 0.694]
+D -->|Sí| H[Retorna 0.0]
+
+```
+
 
 ---
 ## ALGORITMOS
