@@ -24,7 +24,9 @@ class ConjuntosDifusos {
     val belongsTo = (n: Int) => {
 
       if (n <= 0) 0.0 //Statement to know when a number is negative
+
       else {
+
         val isItGreat = n.toDouble / (n.toDouble+d.toDouble)
         //Equation to know when a number is great
         math.pow(isItGreat, e)
@@ -60,10 +62,34 @@ class ConjuntosDifusos {
   }
 
   def inclusion(cd1: ConjDifuso)(cd2: ConjDifuso): Boolean = {
+    /*
+    In this function we use tail recursion to evaluate in every number
+    lower than 1000
+     */
     @tailrec
-    val inclusion = (x: Int) => {
+    def evaluateIndexSet(x: Int): Boolean = {
 
+      val setDifuse1 = cd1(x) //Evaluate the value of the first set
+      val setDifuse2 = cd2(x) // Evaluate the second set´s value
+
+      // base case where we evaluate all the number from 0 to 1000
+      if (x > 1000) {
+        true
+      }
+
+      // Second case where we evaluate if the first set is included in the second set
+      else if (setDifuse1 > setDifuse2) {
+        false
+      }
+
+      // Recursive case where if all is passed and the number is lower than 1000
+      // we proceed to evaluate the next number until be higher than 1000
+      else{
+        evaluateIndexSet(x+1)
+      }
     }
+    //Start the case in the first number that we can
+    evaluateIndexSet(0)
   }
 
   def igualdad(cd1: ConjDifuso, cd2: ConjDifuso): Boolean = {
