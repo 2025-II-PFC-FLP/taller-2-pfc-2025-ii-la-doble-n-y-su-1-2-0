@@ -37,8 +37,7 @@ class ConjuntosDifusos {
   }
 
   def complemento(c: ConjDifuso): ConjDifuso = {
-    // Implementaci´on de la funci´on complemento
-  ...
+    (x: Int) => 1.0 - c(x) // se recibe un conjunto difuso y devuelve otro conjunto difuso con la regla
   }
 
   def union(cd1: ConjDifuso)(cd2: ConjDifuso): ConjDifuso = {
@@ -57,8 +56,14 @@ class ConjuntosDifusos {
   }
 
   def interseccion(cd1: ConjDifuso, cd2: ConjDifuso): ConjDifuso = {
-    @tailrec
-    // Implementaci´on de la funci´on interseccion
+    (inter: Int)=>
+      val Conj1= cd1(inter)
+      val Conj2= cd2(inter)
+      if(Conj1 < Conj2)
+        Conj1
+      else
+        Conj2
+
   }
 
   def inclusion(cd1: ConjDifuso)(cd2: ConjDifuso): Boolean = {
@@ -96,38 +101,4 @@ class ConjuntosDifusos {
     // Implementaci´on de la funci´on igualdad
   ...
   }
-
- /* def grande(d: Int)(e: Int): ConjDifuso = {
-  }*/
-
-  def complemento(c: ConjDifuso): ConjDifuso = {
-    (x: Int) => 1.0 - c(x) // se recibe un conjunto difuso y devuelve otro conjunto difuso con la regla
-  }
-
-/* def union(cd1: ConjDifuso, cd2: ConjDifuso): ConjDifuso = {
-   // Implementaci´on de la funci´on union
- ...
- }*/
-
- def interseccion(cd1: ConjDifuso, cd2: ConjDifuso): ConjDifuso = {
-   (inter: Int)=>
-     val Conj1= cd1(inter)
-     val Conj2= cd2(inter)
-      if(Conj1 < Conj2)
-        Conj1
-      else
-        Conj2
-
- }
-
- /*def inclusion(cd1: ConjDifuso, cd2: ConjDifuso): Boolean = {
-   // Implementaci´on de la funci´on inclusion
- ...
- }
-
- def igualdad(cd1: ConjDifuso, cd2: ConjDifuso): Boolean = {
-   // Implementaci´on de la funci´on igualdad
- ...
- }
-*/
 }
