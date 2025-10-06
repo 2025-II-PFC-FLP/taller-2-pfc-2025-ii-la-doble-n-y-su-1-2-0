@@ -1,18 +1,17 @@
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/lEw1Qm1j)
-# Asignación: [Nombre de la asignación]
+# Ejercicios de programaci´on: Conjuntos difusos
 
-**Fecha:** [DD/MM/AAAA]
-**Curso:** [Nombre del Curso]
+**Fecha:** [06/10/2025]
+**Curso:** [Programación funcional y concurrente]
 
 ---
 
 ## 👥 Integrantes del Grupo
 
-| Nombre Completo | Código | Rol            | Correo Electrónico        |
-| --------------- | ------ | -------------- | ------------------------- |
-| [Estudiante 1]  | 123456 | [Líder/Colab.] | [correo1@institucion.edu] |
-| [Estudiante 2]  | 123457 | [Colaborador]  | [correo2@institucion.edu] |
-| [Estudiante 3]  | 123458 | [Colaborador]  | [correo3@institucion.edu] |
+| Nombre Completo              | Código  | Rol          | Correo Electrónico                      |
+|------------------------------|---------|--------------|-----------------------------------------|
+| Nicolle López Colonia        | 2259630 | Colaborador  | nicolle.lopez@correounivalle.edu.com    |
+| Juan Fernando Jimenez Garcia | 123457  | Colaborador  |juan.jimenez.garcia@correounivalle.edu.co|
 
 ---
 
