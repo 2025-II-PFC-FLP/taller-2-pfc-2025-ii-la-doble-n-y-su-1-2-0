@@ -1,129 +1,68 @@
-q
+# 📘 Taller 2:  Programación Funcional y Concurrente
+**Tema:** Ejercicios de programación: Conjuntos difusos
 
-# Informe de proceso Algoritmo Factorial con Recursión de Cola
-
-## Definición del Algoritmo
-
-```Scala
-def factorial(n: Int): BigInt = {
-  @annotation.tailrec
-  def loop(x: Int, acumulador: BigInt): BigInt = {
-    if (x <= 1) acumulador
-    else loop(x - 1, acumulador * x)
-  }
-  loop(n, 1)
-}
-```
-
-- La función `factorial` calcula el factorial de un número `n` utilizando **recursión de cola**.
-- La función interna `loop` es la que hace la recursión:
-  - Recibe dos parámetros:
-    - `x`: el valor actual decreciente hasta llegar a 1.
-    - `acumulador`: donde se guarda el resultado parcial en cada paso.
-
-- El decorador `@annotation.tailrec` obliga a que la función sea optimizada como recursión de cola, es decir, **no se acumulan llamados en la pila**.
-
-## Explicación paso a paso
-
-### Caso base
-
-```Scala
-if (x <= 1) acumulador
-```
-
-Cuando `x` llega a `1`, la función retorna directamente el valor acumulado, evitando más llamadas.
-
-### Caso recursivo
-
-```Scala
-loop(x - 1, acumulador * x)
-```
-
-En cada llamada:
-
-- Se reduce el valor de `x` en 1.
-- Se multiplica el acumulador por `x` y se pasa a la siguiente iteración.
-- Como es recursión de cola, la llamada recursiva es la **última instrucción** en ejecutarse, lo que permite a Scala optimizar la pila.
+🗓️**Fecha:** Octubre de 2025
 
 ---
+## 🧩 Introducción
+### 🔢 Conjuntos difusos y lógica difusa
+Los conjuntos difusos son una extensión de los conjuntos clásicos que permiten representar la pertenencia parcial de un elemento. A diferencia de los conjuntos 
+tradicionales donde un elemento pertenece completamente (1) o no pertenece (0), en los conjuntos difusos un elemento puede tener un grado de pertenencia entre 0 y 1.
 
-## Llamados de pila en recursión de cola
+Este taller implementa `siete operaciones fundamentales` sobre conjuntos difusos:
 
-Ejemplo:
-
-```Scala
-factorial(5)
-```
-
-### Paso 1: Llamada inicial
-
-```Scala
-loop(5, 1)
-```
-
-### Paso 2: Primera iteración
-
-```Scala
-loop(4, 5)   // acumulador = 1 * 5
-```
-
-### Paso 3: Segunda iteración
-
-```Scala
-loop(3, 20)  // acumulador = 5 * 4
-```
-
-### Paso 4: Tercera iteración
-
-```Scala
-loop(2, 60)  // acumulador = 20 * 3
-```
-
-### Paso 5: Cuarta iteración
-
-```Scala
-loop(1, 120) // acumulador = 60 * 2
-```
-
-### Paso 6: Caso base
-
-```Scala
-return 120
-```
+1. **Pertenece**: Función que evalúa el grado de pertenencia de un elemento en un conjunto difuso
+2. **Grande**: Función que determina qué tan "grande" es un número
+3. **Complemento**: Operación que invierte los grados de pertenencia de un conjunto
+4. **Union**: Operación que combina dos conjuntos difusos tomando el máximo
+5. **Interseccion**: Operación que combina dos conjuntos tomando el mínimo
+6. **Inclusion**: Relación que verifica si un conjunto está contenido en otro
+7. **Igualdad**: Relación que verifica si dos conjuntos son idénticos
 
 ---
+## ALGORITMOS
+### 🔷 DEFINICIÓN FUNCIÓN "PERTENECE"
 
-## Diferencia con recursión normal
-
-- En **recursión normal** cada llamada queda en la pila esperando a que termine la siguiente, lo que puede causar desbordamiento si `n` es muy grande.
-- En **recursión de cola**, el compilador transforma el proceso en un **bucle optimizado**, por lo que no se guarda cada llamada en la pila y el algoritmo puede ejecutarse para valores muy grandes sin problema.
 
 ---
+## ALGORITMOS
+### 🔷 DEFINICIÓN FUNCIÓN "GRANDE"
+La función `grande` crea un conjunto difuso que modela el concepto de "números grandes" mediante una función sigmoidal parametrizada. Utiliza la siguiente fórmula matemática:
 
-## Ejemplo de uso
+Para un número $n$, su grado de pertenencia al conjunto de "números grandes" se define como:
 
-```Scala
-val resultado = factorial(5)
-println(resultado)  // 120
-```
+$$
+\text{grande}(n) =
+\begin{cases}
+0 & \text{si } n \leq 0 \\
+\left(\frac{n}{n+d}\right)^e & \text{si } n > 0
+\end{cases}
+$$
 
-El resultado de `factorial(5)` es `120`.
 
-## Diagrama de llamados de pila con recursión de cola
+---
+## ALGORITMOS
+### 🔷 DEFINICIÓN FUNCIÓN "COMPLEMENTO"
 
-```mermaid
-sequenceDiagram
-    participant Main as factorial(5)
-    participant L1 as loop(5, 1)
-    participant L2 as loop(4, 5)
-    participant L3 as loop(3, 20)
-    participant L4 as loop(2, 60)
-    participant L5 as loop(1, 120)
 
-    Main->>L1: llamada inicial
-    L1->>L2: tail call con (4, 5)
-    L2->>L3: tail call con (3, 20)
-    L3->>L4: tail call con (2, 60)
-    L4->>L5: tail call con (1, 120)
-    L5-->>Main: return 120
-```
+---
+## ALGORITMOS
+### 🔷 DEFINICIÓN FUNCIÓN "UNION"
+
+
+---
+## ALGORITMOS
+### 🔷 DEFINICIÓN FUNCIÓN "INTERSECCIÓN"
+
+
+---
+## ALGORITMOS
+### 🔷 DEFINICIÓN FUNCIÓN "INCLUSION"
+
+
+---
+## ALGORITMOS
+### 🔷 DEFINICIÓN FUNCIÓN "IGUALDAD"
+
+
+---

@@ -23,6 +23,7 @@ class ConjuntosDifusosTest extends AnyFunSuite {
   val Vacio: cd.ConjDifuso = _ => 0.0
   val universal: cd.ConjDifuso = _ => 1.0
   val testecito: cd.ConjDifuso = (x: Int) => if (x <= 5) 1.0 else 0.0
+
 //_____________________________________________________________________________________________________________________
 //            TEST PERTENECE
 //  = 1 PERTENECE    //////   = 0 NO PERTENECE
@@ -61,6 +62,46 @@ class ConjuntosDifusosTest extends AnyFunSuite {
     assert(cd.pertenece(15, Ochenta) == 0.8)
     assert(cd.pertenece(200, Ochenta) == 0.8)
   }
+
+// ============================================
+//         TEST GRANDE
+//  = 1.0 belongs to grande  //////   = 0.0 not belongs to grande
+// ============================================
+
+  test("Grande works with negative numbers and return 0.0") {
+    val setDifuse1 = cd.grande(10)(2)
+
+    assert(setDifuse1(-5) == 0.0)
+  }
+
+  test("Grande demonstrate larger numbers are higher than small numbers") {
+    val setDifuse1 = cd.grande(10)(2)
+
+    assert(setDifuse1(50) < setDifuse1(100))
+  }
+
+  test("Grande demonstrate that parameter 'd' controls the function") {
+    val setDifuse1 = cd.grande(5)(2)
+    val setDifuse2 = cd.grande(20)(2)
+
+    assert(setDifuse1(50) > setDifuse2(50))
+  }
+
+  test("Grande shows the exact calculation for n=50 with a small possibility of error") {
+    val setDifuse1 = cd.grande(10)(2)
+    val expectedValue50 = math.pow(50.0 / 60.0, 2.0)
+
+    assert(math.abs(setDifuse1(50) - expectedValue50) < 0.001)
+  }
+
+  test("Grande shows the exact calculation for n=100 with a small possibility of error") {
+    val setDifuse1 = cd.grande(10)(2)
+    val expectedValue100 = math.pow(100.0 / 110.0, 2.0)
+
+    assert(math.abs(setDifuse1(100) - expectedValue100) < 0.001)
+  }
+
+
 //_____________________________________________________________________________________________________________________
 //           TEST COMPLEMENTO
 //  = 1 PERTENECE A CONJUNTO COMPLEMENTARIO  //////   = 0 NO PERTENECE AL CONJUNTO COMPLEMENTARIO
@@ -102,6 +143,51 @@ class ConjuntosDifusosTest extends AnyFunSuite {
     assert(comp(10) == 0.5)
     assert(comp(100) == 0.5)
   }
+
+// ============================================
+//         TEST UNION
+// ============================================
+
+  test("Union with empty set returns the other set") {
+    val setDifuse1 = cd.grande(10)(2)
+    val unionResult = cd.union(setDifuse1)(Vacio)
+
+    assert(unionResult(50) == setDifuse1(50))
+  }
+
+  test("Union with universal set returns universal") {
+    val setDifuse1 = cd.grande(10)(2)
+    val unionResult = cd.union(setDifuse1)(universal)
+
+    assert(unionResult(100) == 1.0)
+  }
+
+  test("Union is commutative example 1") {
+    val setDifuse1 = cd.grande(10)(2)
+    val setDifuse2 = cd.grande(20)(2)
+    val unionResult1 = cd.union(setDifuse1)(setDifuse2)
+    val unionResult2 = cd.union(setDifuse2)(setDifuse1)
+
+    assert(unionResult1(50) == unionResult2(50))
+  }
+
+  test("Union is commutative example 2") {
+    val setDifuse1 = cd.grande(10)(2)
+    val setDifuse2 = cd.grande(20)(2)
+    val unionResult1 = cd.union(setDifuse1)(setDifuse2)
+    val unionResult2 = cd.union(setDifuse2)(setDifuse1)
+
+    assert(unionResult1(73) == unionResult2(73))
+  }
+
+  test("Union takes maximum between two sets") {
+    val setDifuse1 = cd.grande(5)(2)
+    val setDifuse2 = cd.grande(20)(2)
+    val unionResult = cd.union(setDifuse1)(setDifuse2)
+
+    assert(unionResult(50) == math.max(setDifuse1(50), setDifuse2(50)))
+  }
+
 //__________________________________________________________________________________________________________
 //           TEST  INTERSECCION
 //   = 0 fuera de la intersección //// = 1 pertenece a ambos conjuntos
@@ -150,6 +236,42 @@ class ConjuntosDifusosTest extends AnyFunSuite {
     assert(inter(5) == 0.5)
     assert(inter(15) == 0.3)
     }
+
+// ============================================
+//       TEST INCLUSION
+// ============================================
+
+  test("Inclusion shows that every set is included in the universal set") {
+    val setDifuse1 = cd.grande(10)(2)
+
+    assert(cd.inclusion(setDifuse1)(universal))
+  }
+
+  test("Inclusion shows that only empty set is included in empty set") {
+    val setDifuse1 = cd.grande(10)(2)
+
+    assert(!cd.inclusion(setDifuse1)(Vacio))
+  }
+
+  test("Inclusion shows that a small set is included in large set") {
+    val smallNumbersSet = cd.grande(30)(2)
+    val largeNumbersSet = cd.grande(5)(2)
+
+    assert(cd.inclusion(smallNumbersSet)(largeNumbersSet))
+  }
+
+  test("Inclusion shows that is not commutative") {
+    val smallNumbersSet = cd.grande(30)(2)
+    val largeNumbersSet = cd.grande(5)(2)
+
+    assert(!cd.inclusion(largeNumbersSet)(smallNumbersSet))
+  }
+
+  test("Inclusion shows that a set is included in itself") {
+    val setDifuse1 = cd.grande(15)(2)
+
+    assert(cd.inclusion(setDifuse1)(setDifuse1))
+  }
 
 //______________________________________________________________________
 //              TEST IGUALDAD
