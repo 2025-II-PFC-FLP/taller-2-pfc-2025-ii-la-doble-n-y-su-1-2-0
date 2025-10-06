@@ -19,11 +19,16 @@ class ConjuntosDifusos {
   }
 
   def grande(d: Int)(e: Int): ConjDifuso = {
+    //belongsTo is the lambda to work with the number and make it
+    // a ConjDiffuse
     val belongsTo = (n: Int) => {
-      if (n <= 0) 0.0
+
+      if (n <= 0) 0.0 //Statement to know when a number is negative
       else {
         val isItGreat = n.toDouble / (n.toDouble+d.toDouble)
+        //Equation to know when a number is great
         math.pow(isItGreat, e)
+        //To know if the number is great or not
       }
     }
     belongsTo
@@ -34,9 +39,19 @@ class ConjuntosDifusos {
   ...
   }
 
-  def union(cd1: ConjDifuso, cd2: ConjDifuso): ConjDifuso = {
-    // Implementaci´on de la funci´on union
-  ...
+  def union(cd1: ConjDifuso)(cd2: ConjDifuso): ConjDifuso = {
+    // Lambda that makes a union between the two set
+    val unionSet = (x: Int) => {
+
+      val setDifuse1 = cd1(x) //Evaluate the value of the first set
+      val setDifuse2 = cd2(x) // Evaluate the second set´s value
+
+      // Choose the max between set 1 and set 2 to complete the union
+      val unionSd1Sd2 = math.max(setDifuse1, setDifuse2)
+
+      unionSd1Sd2 //The final value of lambda
+    }
+    unionSet
   }
 
   def interseccion(cd1: ConjDifuso, cd2: ConjDifuso): ConjDifuso = {
@@ -44,9 +59,11 @@ class ConjuntosDifusos {
     // Implementaci´on de la funci´on interseccion
   }
 
-  def inclusion(cd1: ConjDifuso, cd2: ConjDifuso): Boolean = {
-    // Implementaci´on de la funci´on inclusion
-  ...
+  def inclusion(cd1: ConjDifuso)(cd2: ConjDifuso): Boolean = {
+    @tailrec
+    val inclusion = (x: Int) => {
+
+    }
   }
 
   def igualdad(cd1: ConjDifuso, cd2: ConjDifuso): Boolean = {
