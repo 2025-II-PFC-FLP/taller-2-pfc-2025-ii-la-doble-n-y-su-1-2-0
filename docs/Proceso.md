@@ -22,7 +22,114 @@ Este taller implementa `siete operaciones fundamentales` sobre conjuntos difusos
 ---
 ## ALGORITMOS
 ### 🔷 DEFINICIÓN FUNCIÓN "PERTENECE"
+La función `pertenece` es la operación fundamental que permite evaluar el grado de pertenencia de un elemento a un conjunto difuso. Esta función aplica la función característica del conjunto difuso a un elemento específico, retornando un valor en el intervalo $[0, 1]$.
 
+Matemáticamente, para un conjunto difuso $S$ con función característica $f_S: U \to [0,1]$:
+
+$$
+\text{pertenece}(x, S) = f_S(x)
+$$
+
+#### ALGORITMO EN SCALA:
+```scala
+```scala
+def pertenece(elem: Int, s: ConjDifuso): Double = {
+  s(elem)
+}
+```
+**Componentes de la función:**
+- `elem: Int`: El elemento del universo a evaluar
+- `s: ConjDifuso`: El conjunto difuso (función `Int => Double`)
+- Retorna `Double`: El grado de pertenencia en el intervalo $[0, 1]$
+
+### 🔧 EXPLICACIÓN PASO A PASO
+
+#### EVALUACIÓN DIRECTA:
+La función simplemente aplica el conjunto difuso `s` (que es una función) al elemento `elem`. Dado que un `ConjDifuso` está definido como `type ConjDifuso = Int => Double`, esta aplicación es directa y retorna el grado de pertenencia.
+
+**Interpretación del resultado:**
+- Si retorna $0.0$: El elemento **no pertenece** al conjunto
+- Si retorna $1.0$: El elemento **pertenece completamente** al conjunto
+- Si retorna un valor entre $0.0$ y $1.0$: El elemento tiene **pertenencia parcial**
+- **Evaluaciones:**
+
+| Conjunto    | Elemento | Llamada                   | Resultado | Interpretación              |
+|-------------|----------|---------------------------|-----------|----------------------------|
+| `vacio`     | 5        | `pertenece(5, vacio)`     | $0.0$     | No pertenece               |
+| `universal` | 100      | `pertenece(100, universal)` | $1.0$   | Pertenece completamente    |
+| `testecito` | 2        | `pertenece(2, testecito)` | $1.0$     | Pertenece (2 ≤ 5)          |
+| `testecito` | 7        | `pertenece(7, testecito)` | $0.0$     | No pertenece (7 > 5)       |
+| `medio`     | 10       | `pertenece(10, medio)`    | $0.5$     | Pertenencia parcial        |
+
+### 📊 DIAGRAMA DE EVALUACIÓN DE `pertenece`
+
+```mermaid
+graph TD
+    A[pertenece elem s] --> B[s es una función Int => Double]
+    B --> C[Aplicar: s elem]
+    C --> D{Evaluar función característica}
+    D --> E[Retorna grado ∈ 0 1]
+    E --> F{Interpretar resultado}
+    F -->|= 0.0| G[No pertenece]
+    F -->|= 1.0| H[Pertenece totalmente]
+    F -->|∈ 0 1| I[Pertenencia parcial]
+    
+    style A fill:#e1f5ff
+    style C fill:#ffe1e1
+    style E fill:#fff9c4
+    style G fill:#ffcdd2
+    style H fill:#c8e6c9
+    style I fill:#fff59d
+```
+### 🧾 NOTACIÓN MATEMÁTICA DE `pertenece`
+
+#### 📐 DEFINICIÓN FORMAL
+
+$$
+\text{pertenece} : \mathbb{Z} \times \text{ConjDifuso} \to [0, 1]
+$$
+
+$$
+\text{pertenece}(x, S) = \mu_S(x)
+$$
+
+donde $\mu_S: \mathbb{Z} \to [0, 1]$ es la función de pertenencia del conjunto difuso $S$.
+
+#### 📐 PROPIEDADES
+
+**Rango de valores:**
+
+$$
+\forall x \in \mathbb{Z}, \forall S \in \text{ConjDifuso} : 0 \leq \text{pertenece}(x, S) \leq 1
+$$
+
+**Conjunto vacío:**
+
+$$
+\forall x \in \mathbb{Z} : \text{pertenece}(x, \emptyset) = 0
+$$
+
+**Conjunto universal:**
+
+$$
+\forall x \in \mathbb{Z} : \text{pertenece}(x, U) = 1
+$$
+
+**Aplicación funcional:** La operación es simplemente la aplicación de la función característica:
+
+$$
+\text{pertenece}(x, S) = f_S(x)
+$$
+
+#### 📊 COMPLEJIDAD
+
+- **Temporal**: $O(1)$ - La evaluación depende de la complejidad de la función característica del conjunto difuso específico
+- **Espacial**: $O(1)$ - No requiere memoria adicional, solo evalúa la función
+
+**Nota:** La complejidad real puede variar según la implementación del conjunto difuso. Por ejemplo:
+- Conjunto constante: $O(1)$
+- Conjunto con cálculos: $O(k)$ donde $k$ es la complejidad del cálculo interno
+- Para `grande(d)(e)`: $O(1)$ con operaciones de división y potencia
 
 ---
 ## ALGORITMOS
