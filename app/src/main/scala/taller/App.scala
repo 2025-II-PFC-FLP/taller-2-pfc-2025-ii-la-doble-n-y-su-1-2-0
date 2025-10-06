@@ -37,7 +37,7 @@ class ConjuntosDifusos {
   }
 
   def complemento(c: ConjDifuso): ConjDifuso = {
-    (x: Int) => 1.0 - c(x) // se recibe un conjunto difuso y devuelve otro conjunto difuso con la regla
+    (Elemento: Int) => 1.0 - c(Elemento) // se recibe un conjunto difuso y devuelve otro conjunto difuso con la regla
   }
 
   def union(cd1: ConjDifuso)(cd2: ConjDifuso): ConjDifuso = {
@@ -98,7 +98,15 @@ class ConjuntosDifusos {
   }
 
   def igualdad(cd1: ConjDifuso, cd2: ConjDifuso): Boolean = {
-    // Implementaci´on de la funci´on igualdad
-  ...
+    @tailrec
+    def Elemento (n: Int): Boolean = {
+      if (n > 1000)   // no se encuentra ningun elemento diferente
+        true
+      else if (cd1(n) != cd2(n)) // Caso de corte, se encuentra un valor que no es igual
+        false
+      else
+        Elemento (n + 1)  // Paso recursivo,se sigue comparando
+    }
+    Elemento (0)
   }
 }

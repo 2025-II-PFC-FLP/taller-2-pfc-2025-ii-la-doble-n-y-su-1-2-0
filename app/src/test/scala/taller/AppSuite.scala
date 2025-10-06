@@ -69,7 +69,7 @@ class ConjuntosDifusosTest extends AnyFunSuite {
   }
 
   //           TEST  INTERSECCION
-
+  //   = 0 fuera de la intersección //// = 1 pertenece a ambos conjuntos
 
   test("NUNCA INTERSECCION CON VACIO") {
     val inter = cd.interseccion(testecito, Vacio)
