@@ -12,4 +12,83 @@ class AppSuite extends AnyFunSuite {
   test("App has a greeting") {
     assert(App.greeting() != null)
   }
+  val cd = new ConjuntosDifusos
+
+}
+
+@RunWith(classOf[JUnitRunner])
+class ConjuntosDifusosTest extends AnyFunSuite {
+
+  val cd = new ConjuntosDifusos
+  val Vacio: cd.ConjDifuso = _ => 0.0
+  val universal: cd.ConjDifuso = _ => 1.0
+  val testecito: cd.ConjDifuso = (x: Int) => if (x <= 5) 1.0 else 0.0
+
+  //            TEST PERTENECE
+  //  = 1 PERTENECE    //////   = 0 NO PERTENECE
+  test("[NO PERTENECE A UN CONJUNTO VACIO]") {
+
+    assert(cd.pertenece(5, Vacio) == 0.0)
+    assert(cd.pertenece(100, Vacio) == 0.0)
+  }
+
+  test("[PERTENECE A UN CONJUNTO UNIVERSAL DE NUMEROS]") {
+    assert(cd.pertenece(5, universal) == 1.0)
+    assert(cd.pertenece(100, universal) == 1.0)
+  }
+
+  test("[PERTENECE O NO PERTENECE Al CONJUNTO DIFUSO TESTECITO :D ]") {
+    assert(cd.pertenece(2, testecito) == 1.0) // pertenece totalmente
+    assert(cd.pertenece(7, testecito) == 0.0) // no pertenece
+  }
+
+  //           TEST COMPLEMENTO
+  //  = 1 PERTENECE A CONJUNTO COMPLEMENTARIO  //////   = 0 NO PERTENECE AL CONJUNTO COMPLEMENTARIO
+
+  test("COMPLEMENTO DE UN CONJUNTO VACIO") {
+    val vacio: cd.ConjDifuso = _ => 0.0
+    val comp = cd.complemento(vacio)
+
+    assert(comp(1) == 1.0)
+    assert(comp(50) == 1.0)
+  }
+
+  test("COMPLEMENTO DE UN CONJUNTO UNIVERSAL") {
+    val universal: cd.ConjDifuso = _ => 1.0
+    val comp = cd.complemento(universal)
+
+    assert(comp(1) == 0.0)
+    assert(comp(50) == 0.0)
+  }
+  test("COMPLEMENTO DEVUELVE EL VALOR ORIGINAL") {
+    val comp = cd.complemento(testecito)
+    val dobleComp = cd.complemento(comp)
+
+    assert(dobleComp(3) == testecito(3))
+    assert(dobleComp(10) == testecito(10))
+  }
+
+  //           TEST  INTERSECCION
+
+
+  test("NUNCA INTERSECCION CON VACIO") {
+    val inter = cd.interseccion(testecito, Vacio)
+
+    assert(inter(2) == 0.0)
+    assert(inter(10) == 0.0)
+  }
+
+  test("INTERSECCION CON UNIVERSAL DA EL MISMO CONJUNTO") {
+    val inter = cd.interseccion(testecito, universal)
+
+    assert(inter(4) == testecito(4))
+    assert(inter(25) == testecito(25))
+  }
+
+  test("INTERSECCION CON EL MISMO CONJUNTO DEVUELVE EL MISMO CONJUNTO") {
+    val inter = cd.interseccion(testecito, testecito)
+
+    assert(inter(30) == testecito(30))
+    assert(inter(9) == testecito(9))
+  }
 }
