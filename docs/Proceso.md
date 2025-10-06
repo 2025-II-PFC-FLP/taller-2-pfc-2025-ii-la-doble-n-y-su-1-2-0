@@ -633,7 +633,6 @@ $$
 ---
 ## ALGORITMOS
 
-## ALGORITMOS
 ### 📷 DEFINICIÓN FUNCIÓN "INTERSECCIÓN"
 La función `interseccion` combina dos conjuntos difusos aplicando el operador de mínimo (t-norma estándar). Para cada elemento, toma el menor grado de pertenencia entre ambos conjuntos, representando así los elementos que pertenecen a ambos conjuntos simultáneamente.
 
